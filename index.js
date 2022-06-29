@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-(async () => {
+const hebrewToArabicInHebrewText = async (word) => {
 	const browser = await puppeteer.launch({
 		headless: false,
 		defaultViewport: {
@@ -8,11 +8,12 @@ const puppeteer = require("puppeteer");
 		},
 	});
 	const page = await browser.newPage();
-	await page.goto("https://rothfarb.info/ronen/arabic/?searchString=דלת");
-	const grabPage = await page.evaluate(() => {
-		const pgTag = document.querySelector(".result .arb.keter");
-		return pgTag.innerText;
+	await page.goto(`https://rothfarb.info/ronen/arabic/?searchString=${word}`);
+	const grabWord = await page.evaluate(() => {
+		const tag = document.querySelector(".result .arb.keter");
+		return tag.innerText;
 	});
-	console.log(grabPage);
+	console.log(grabWord.split("").reverse().join(""));
 	await browser.close();
-})();
+};
+hebrewToArabicInHebrewText("בית");
